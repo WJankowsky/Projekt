@@ -1,0 +1,11 @@
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\Projekt.exe
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\Projekt.deps.json
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\Projekt.runtimeconfig.json
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\Projekt.runtimeconfig.dev.json
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\Projekt.dll
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\Projekt.pdb
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.csprojAssemblyReference.cache
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.AssemblyInfoInputs.cache
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.AssemblyInfo.cs
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.dll
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.pdb
