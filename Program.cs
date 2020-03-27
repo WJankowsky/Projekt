@@ -11,6 +11,7 @@ namespace programowanie
             ONP test = new ONP(args[0]);
             test.Zmienna = double.Parse(args[1]);
             string[] infix = test.Tokeny(test.Wejscie);
+            if (!test.Sprawdzenie(infix)) throw new Exception("Invalid input");
             foreach(string i in infix)
             {
                 System.Console.Write("{0} ", i);

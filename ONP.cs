@@ -24,6 +24,7 @@ namespace programowanie
         {
             Wejscie = wejscie;
         }
+
         public string[] Tokeny(string wejscie)
         {
             string Buforowanie = wejscie.ToLower();
@@ -34,6 +35,51 @@ namespace programowanie
 
             string[] listaTokenow = Buforowanie.Split(" ".ToCharArray());
             return listaTokenow;
+        }
+
+        public bool Sprawdzenie(string[] listaTokenow)
+        {
+            string OstatniToken = "";
+            int lewyNawias = 0, prawyNawias = 0;
+            if (CzyJestOperator(listaTokenow.Last())) return false;
+            foreach (string a in listaTokenow)
+            {
+                if (!Regex.IsMatch(a, @"[a-zA-Z\d\(\)]+$") && !CzyJestOperator(a))
+                {
+                    return false;
+                }
+                if (Regex.IsMatch(a, @"^[a-zA-Z]+$") && a != "x" && !CzyJestFunkcja(a))
+                {
+                    return false;
+                }
+                if (a == "(")
+                {
+                    lewyNawias++;
+                }
+                if (a == ")")
+                {
+                    prawyNawias++;
+                }
+                if (a == ")" && lewyNawias < prawyNawias)
+                {
+                    return false;
+                }
+                if (CzyJestOperator(a) && CzyJestOperator(OstatniToken))
+                {
+                    return false;
+                }
+                if (Regex.IsMatch(a, @"\d+$") && OstatniToken != "" && OstatniToken != "(" && !CzyJestFunkcja(OstatniToken) && !CzyJestOperator(OstatniToken))
+                {
+                    return false;
+                }
+                if (a == "0" && OstatniToken == "/")
+                {
+                    return false;
+                }
+
+                OstatniToken = a;
+            }
+            return true;
         }
 
         public List<string> Zamiana(string[] listaTokenow) // konwersja infix na postfix
