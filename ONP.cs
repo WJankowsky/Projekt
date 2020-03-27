@@ -14,6 +14,12 @@ namespace programowanie
             get { return _wejscie; }
             set { _wejscie = value; }
         }
+        private double _zmienna;
+        public double Zmienna
+        {
+            get { return _zmienna; }
+            set { _zmienna = value; }
+        }
         public ONP(string wejscie)
         {
             Wejscie = wejscie;
@@ -52,7 +58,7 @@ namespace programowanie
                 {
                     while (stos.Count > 0 && SlownikPriorytetow(a) <= SlownikPriorytetow(stos.Peek()))
                     {
-                         kolejka.Enqueue(stos.Pop());
+                        kolejka.Enqueue(stos.Pop());
                     }
                     stos.Push(a);
                 }
@@ -67,6 +73,50 @@ namespace programowanie
             }
             var list = kolejka.ToList();
             return list;
+        }
+
+        public double ObliczaniePostfixa(List<string> postfix)
+        {
+            double wynik;
+            Stack<string> stos = new Stack<string>();
+            foreach (string p in postfix)
+            {
+                if (CzyJestLiczba(p))
+                {
+                    if (p == "x") stos.Push(Zmienna.ToString());
+                    else if (p == "-x") stos.Push((Zmienna * -1).ToString());
+                    else stos.Push(p);
+                }
+                else if (CzyJestFunkcja(p))
+                {
+                    double temp;
+                    temp = (System.Convert.ToDouble(stos.Pop()));
+                    stos.Push(KalkulatorZaawansowany(p, temp).ToString());
+                }
+                else if (CzyJestOperator(p))
+                {
+                    double a, b;
+                    a = System.Convert.ToDouble(stos.Pop());
+                    b = System.Convert.ToDouble(stos.Pop());
+                    stos.Push(KalkulatorProsty(a, b, p).ToString());
+                }
+            }
+            wynik = System.Convert.ToDouble(stos.Pop());
+            return wynik;
+        }
+
+        public void ObliczaniePrzedzialow(List<string> postfix, double p, double k, int n)
+        {
+            double wynik = 0;
+            double a = (k - p) / (n - 1);
+            Zmienna = p;
+            Console.WriteLine();
+            for (int i = 0; i < n; i++)
+            {
+                wynik = ObliczaniePostfixa(postfix);
+                System.Console.WriteLine("{0} => {1}", Zmienna, wynik);
+                Zmienna += a;
+            }
         }
 
         static int SlownikPriorytetow(string a)  // Priorytety
@@ -95,7 +145,7 @@ namespace programowanie
 
         static bool CzyJestLiczba(string a)
         {
-            if(Regex.IsMatch(a, @"\d+|[x]+$"))
+            if (Regex.IsMatch(a, @"\d+|[x]+$"))
             {
                 return true;
             }
@@ -107,7 +157,7 @@ namespace programowanie
 
         static bool CzyJestOperator(string a)
         {
-            if(a == "+" || a == "-" || a == "/" || a == "*")
+            if (a == "+" || a == "-" || a == "/" || a == "*" || a == "^")
             {
                 return true;
             }
@@ -127,35 +177,34 @@ namespace programowanie
             {
                 return false;
             }
-
         }
 
         static double KalkulatorProsty(double a, double b, string c)
         {
-            if(c == "+")
+            if (c == "+")
             {
-                return a+b;
+                return a + b;
             }
-            if(c == "-")
+            if (c == "-")
             {
-                return a-b;
+                return b - a;
             }
-            if(c == "*")
+            if (c == "*")
             {
-                return a*b;
+                return a * b;
             }
-            if(c == "/")
+            if (c == "/")
             {
-                return a/b;
+                return b / a;
             }
-            if(c == "^")
+            if (c == "^")
             {
                 return Math.Pow(b, a);
             }
             throw new Exception();
         }
 
-        static double KalkulatorZaawansowany(string a, double temp)
+        static double KalkulatorZaawansowany(string a, double temp)//JD
         {
             if (a == "abs")
             {

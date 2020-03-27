@@ -8,7 +8,8 @@ namespace programowanie
     {
         static void Main(string[] args)
         {
-            ONP test = new ONP("exp(2*x+1)/sin(2+x)");
+            ONP test = new ONP(args[0]);
+            test.Zmienna = double.Parse(args[1]);
             string[] infix = test.Tokeny(test.Wejscie);
             foreach(string i in infix)
             {
@@ -20,6 +21,8 @@ namespace programowanie
             {
                 System.Console.Write("{0} ", p);
             }
+            Console.Write("\n{0}", test.ObliczaniePostfixa(postfix));
+            test.ObliczaniePrzedzialow(postfix,double.Parse(args[2]),double.Parse(args[3]),Convert.ToInt32(args[4]));
         }
     }
 }
