@@ -250,7 +250,7 @@ namespace programowanie
             throw new Exception();
         }
 
-        static double KalkulatorZaawansowany(string a, double temp)//JD
+        static double KalkulatorZaawansowany(string a, double temp)
         {
             if (a == "abs")
             {
