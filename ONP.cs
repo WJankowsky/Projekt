@@ -18,52 +18,144 @@ namespace programowanie
         {
             Wejscie = wejscie;
         }
-
         public string[] Tokeny(string wejscie)
         {
             string Buforowanie = wejscie.ToLower();
-            Buforowanie = Regex.Replace(Buforowanie, @"(?<number>\d+(\.\d+)?)", " ${number} ");
-            Buforowanie = Regex.Replace(Buforowanie, @"(?<ops>[+\-*/^()])", " ${ops} ");
-            Buforowanie = Regex.Replace(Buforowanie, @"(?<alpha>(abs|exp|sqrt|log|asin|sinh|sin|cosh|acos|cos|atan|tanh|tan))", " ${alpha} ");
+            Buforowanie = Regex.Replace(Buforowanie, @"(?<numer>\d+(\.\d+)?)", " ${numer} ");
+            Buforowanie = Regex.Replace(Buforowanie, @"(?<operator>[+\-*/^()])", " ${operator} ");
+            Buforowanie = Regex.Replace(Buforowanie, @"(?<funkcja>(abs|exp|sqrt|log|asin|sinh|sin|cosh|acos|cos|atan|tanh|tan))", " ${funkcja} ");
             Buforowanie = Regex.Replace(Buforowanie, @"\s+", " ").Trim();
 
-            //List<char> listaTokenow = new List<char>();
             string[] listaTokenow = Buforowanie.Split(" ".ToCharArray());
-
             return listaTokenow;
         }
 
+        public List<string> Zamiana(string[] listaTokenow) // konwersja infix na postfix
+        {
+            Stack<string> stos = new Stack<string>();
+            Queue<string> kolejka = new Queue<string>();
+            foreach (string a in listaTokenow)
+            {
+                if (a == "(")
+                {
+                    stos.Push(a);
+                }
+                else if (a == ")")
+                {
+                    while (stos.Peek() != "(")
+                    {
+                        kolejka.Enqueue(stos.Pop());
+                    }
+                    stos.Pop();
+                }
+                else if (CzyJestOperator(a) || CzyJestFunkcja(a))
+                {
+                    while (stos.Count > 0 && SlownikPriorytetow(a) <= SlownikPriorytetow(stos.Peek()))
+                    {
+                         kolejka.Enqueue(stos.Pop());
+                    }
+                    stos.Push(a);
+                }
+                if (CzyJestLiczba(a))
+                {
+                    kolejka.Enqueue(a);
+                }
+            }
+            while (stos.Count > 0)
+            {
+                kolejka.Enqueue(stos.Pop());
+            }
+            var list = kolejka.ToList();
+            return list;
+        }
 
-        // public List<string> Zamiana(List<string> tokeny)
-        // {
-        //     return 0;
-        // }
+        static int SlownikPriorytetow(string a)  // Priorytety
+        {
+            if (CzyJestFunkcja(a))
+            {
+                return 4;
+            }
+            else if (a == "^")
+            {
+                return 3;
+            }
+            else if (a == "*" || a == "/")
+            {
+                return 2;
+            }
+            else if (a == "+" || a == "-")
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
-        /*static double KalkulatorProsty(double a, double b, string c)
+        static bool CzyJestLiczba(string a)
+        {
+            if(Regex.IsMatch(a, @"\d+|[x]+$"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        static bool CzyJestOperator(string a)
+        {
+            if(a == "+" || a == "-" || a == "/" || a == "*")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        static bool CzyJestFunkcja(string a)
+        {
+            if ((a == "abs" || a == "exp" || a == "log" || a == "sqrt" || a == "sin" || a == "sinh" || a == "asin" || a == "cos" || a == "cosh" || a == "acos" || a == "tan" || a == "tanh" || a == "atan") || (a == "-abs" || a == "-exp" || a == "-log" || a == "-sqrt" || a == "-sin" || a == "-sinh" || a == "-asin" || a == "-cos" || a == "-cosh" || a == "-acos" || a == "-tan" || a == "-tanh" || a == "-atan"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        static double KalkulatorProsty(double a, double b, string c)
         {
             if(c == "+")
             {
                 return a+b;
             }
-            else if(c == "-")
+            if(c == "-")
             {
                 return a-b;
             }
-            else if(c == "*")
+            if(c == "*")
             {
                 return a*b;
             }
-            else if(c == "/")
+            if(c == "/")
             {
                 return a/b;
             }
-            else if(c == "^")
+            if(c == "^")
             {
                 return Math.Pow(b, a);
             }
+            throw new Exception();
         }
 
-        static double KalklatorZaawansowany(string a, double temp)
+        static double KalkulatorZaawansowany(string a, double temp)
         {
             if (a == "abs")
             {
@@ -118,7 +210,6 @@ namespace programowanie
                 return Math.Atan(temp);
             }
 
-
             if (a == "-abs")
             {
                 return -Math.Abs(temp);
@@ -171,6 +262,7 @@ namespace programowanie
             {
                 return -Math.Atan(temp);
             }
-        }*/
+            throw new Exception();
+        }
     }
 }
