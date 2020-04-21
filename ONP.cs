@@ -33,6 +33,10 @@ namespace programowanie
             Buforowanie = Regex.Replace(Buforowanie, @"(?<funkcja>(abs|exp|sqrt|log|asin|sinh|sin|cosh|acos|cos|atan|tanh|tan))", " ${funkcja} ");
             Buforowanie = Regex.Replace(Buforowanie, @"\s+", " ").Trim();
 
+            Buforowanie = Regex.Replace(Buforowanie, "-", "MINUS");
+            Buforowanie = Regex.Replace(Buforowanie, @"(?<numer>(([)]|\d+(\.\d+)?)))\s+MINUS", "${numer} -");
+            Buforowanie = Regex.Replace(Buforowanie, @"MINUS\s+(?<numer>(([)]|\d+(\.\d+)?)))", "-${numer}");
+
             string[] listaTokenow = Buforowanie.Split(" ".ToCharArray());
             return listaTokenow;
         }
@@ -137,13 +141,15 @@ namespace programowanie
                 {
                     double temp;
                     temp = (System.Convert.ToDouble(stos.Pop()));
-                    stos.Push(KalkulatorZaawansowany(p, temp).ToString());
+                    double rezultat = KalkulatorZaawansowany(p, temp);
+                    if (!CzyJestLiczba(rezultat.ToString())) throw new Exception("Niepoprawna dziedzina funkcji");
+                    else stos.Push(rezultat.ToString());
                 }
                 else if (CzyJestOperator(p))
                 {
                     double a, b;
-                    a = System.Convert.ToDouble(stos.Pop());
-                    b = System.Convert.ToDouble(stos.Pop());
+                    a = System.Convert.ToDouble(stos.Pop(), System.Globalization.CultureInfo.InvariantCulture);
+                    b = System.Convert.ToDouble(stos.Pop(), System.Globalization.CultureInfo.InvariantCulture);
                     stos.Push(KalkulatorProsty(a, b, p).ToString());
                 }
             }
