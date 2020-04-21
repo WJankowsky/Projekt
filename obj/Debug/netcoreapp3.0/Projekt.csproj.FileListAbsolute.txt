@@ -9,3 +9,10 @@ C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.
 C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.AssemblyInfo.cs
 C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.dll
 C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.pdb
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\appsettings.Development.json
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\appsettings.json
+C:\Users\Wojciech\Desktop\programowanie\Projekt\bin\Debug\netcoreapp3.0\Properties\launchSettings.json
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\staticwebassets\Projekt.StaticWebAssets.Manifest.cache
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\staticwebassets\Projekt.StaticWebAssets.xml
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Wojciech\Desktop\programowanie\Projekt\obj\Debug\netcoreapp3.0\Projekt.RazorTargetAssemblyInfo.cache
