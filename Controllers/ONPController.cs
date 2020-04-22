@@ -19,16 +19,21 @@ namespace Projekt.Controllers
             string[] infix = test.Tokeny(test.Wejscie);
             if (!test.Sprawdzenie(infix))
             {
-                var data = new {
-                    status = "error",
-                    message = "invalid formula"
+                var data = new
+                {
+                    status = "blad",
+                    message = "niepoprawna formula"
                 };
                 return BadRequest(data);
-            }else{
+            }
+            else
+            {
                 List<string> postfix = test.Zamiana(infix);
-                var data = new {
+                var data = new
+                {
                     status = "ok",
-                    result = new {
+                    result = new
+                    {
                         infix = infix,
                         rpn = postfix
                     }
@@ -37,29 +42,47 @@ namespace Projekt.Controllers
             }
         }
 
-        [HttpGet]
         [Route("api/calculate")]
         public IActionResult Get(string formula, double x)
         {
             ONP test = new ONP(formula);
+            test.Zmienna = x;
             string[] infix = test.Tokeny(test.Wejscie);
             if (!test.Sprawdzenie(infix))
             {
-                var data = new {
+                var data = new
+                {
                     status = "error",
                     message = "invalid formula"
                 };
                 return BadRequest(data);
-            }else{
-                List<string> postfix = test.Zamiana(infix);
-                var data = new {
-                    status = "ok",
-                    result = test.ObliczaniePostfixa(postfix)
-                };
-                return Ok(data);
             }
+            else
+            {
+                List<string> postfix = test.Zamiana(infix);
+                try
+                {
+                    var data = new
+                    {
+                        status = "ok",
+                        result = test.ObliczaniePostfixa(postfix)
+                    };
+                    return Ok(data);
+                }
+                catch (Exception)
+                {
+                    var data = new
+                    {
+                        status = "error",
+                        message = "niepoprawna dziedzina funkcji"
+                    };
+                    return BadRequest(data);
+                }
+ 
+            };
         }
-
+ 
+ 
         [HttpGet]
         [Route("api/calculate/xy")]
         public IActionResult Get(string formula, double from, double to, int n)
@@ -68,16 +91,25 @@ namespace Projekt.Controllers
             string[] infix = test.Tokeny(test.Wejscie);
             if (!test.Sprawdzenie(infix))
             {
-                var data = new {
+                var data = new
+                {
                     status = "error",
                     message = "invalid formula"
                 };
                 return BadRequest(data);
-            }else{
+            }
+            else
+            {
                 List<string> postfix = test.Zamiana(infix);
-                var data = new {
+                double[,] wyniki = test.ObliczaniePrzedzialow(postfix, from, to, n);
+                var data = new
+                {
                     status = "ok",
-                    result = "nic"
+                    result = new
+                    {
+                        x = "???",
+                        y = "???"
+                    }
                 };
                 return Ok(data);
             }

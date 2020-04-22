@@ -157,18 +157,19 @@ namespace Projekt
             return wynik;
         }
 
-        public void ObliczaniePrzedzialow(List<string> postfix, double p, double k, int n)
+        public double[,] ObliczaniePrzedzialow(List<string> postfix, double p, double k, int n)
         {
-            double wynik = 0;
+            double[,] wyniki = new double[2, n];
             double a = (k - p) / (n - 1);
             Zmienna = p;
             Console.WriteLine();
             for (int i = 0; i < n; i++)
             {
-                wynik = ObliczaniePostfixa(postfix);
-                System.Console.WriteLine("{0} => {1}", Zmienna, wynik);
+                wyniki[0, i] = Zmienna;
+                wyniki[1, i] = ObliczaniePostfixa(postfix);
                 Zmienna += a;
             }
+            return wyniki;
         }
 
         static int SlownikPriorytetow(string a)  // Priorytety
